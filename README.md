@@ -2,7 +2,7 @@
 Assets lazy loader.  
 
 ###Background
-MooTools More includes a class call Assets.
+MooTools More includes a class call Assets.  
 Assets is wonderful if you need to lazy load one file.  
 
 But it misses many essentials:
@@ -14,10 +14,10 @@ But it misses many essentials:
  - Handling for when a file is re-attached
 
 So we decided to fill the gap with AssetLoader: the *better* Assets class.  
-Syntax is the same, and it's 100% backwards compatible with Assets.  
+Syntax is the same, and it's 100% backwards compatible with Asset.  
 In fact, uncomment the last line and it will replace any calls to Asset you may already have.
 
-	var Assets = AssetLoader;
+	var Asset = AssetLoader;
 
 AssetLoader does NOT require Assets.js.
 
@@ -67,8 +67,11 @@ When both have loaded, the page will alert 'Done!'.*
 	   ['styleOne.css', 'styleTwo.css'],
 	   {'class':newStyles', onComplete: function(){ alert('Done!') }}
 	);
-	
-3: *All but styleTwo.css will have a class 'lazy'.* 
+3: *Load the first image as fast as possible, then images two through four, then all the remaining simultaneously. 
+(Images default to chain:false.  Used in our image gallery.)*
+
+	AssetLoader.css([{src:'img1.jpg', chain:true}, 'img2.jpg', 'img3.jpg', {src:'img4.jpg', chain:true}, 'img5.jpg']);
+4: *All but styleTwo.css will have a class 'lazy'.* 
 *The paths of all files will begin with 'Assets/', eg. 'Assets/styleOne.js'* 
 *myImage.jpg will not load until styleTwo.css has loaded, as styleTwo has chain:true.*
 
@@ -85,7 +88,7 @@ When both have loaded, the page will alert 'Done!'.*
 	}
 	AssetLoader.mixed(files, options);
 	
-
+   
 ###Custom Option: onInit
 If a file is attached multiple times, it will only be included in the page once, but the onLoad will run each time.  
 onInit was created to allow a function that should only be run once.
@@ -101,11 +104,11 @@ onInit was created to allow a function that should only be run once.
 
 ###Notes:
  - This class can replace the Asset Class that is part of MoTools More, and is 100% backwards compatible.  
-   Comment out the last line: Asset = AssetLoader.  Methods can then be called as Assets.css() instead of AssetLoader.css();  
- - DO NOT add events using addEvent(), instead pass events in using the onLoad, etc.
+   Comment out the last line: Asset = AssetLoader.  Methods can then be called as Asset.css() instead of AssetLoader.css();  
+ - DO NOT add events using addEvent(), instead pass events in using events or onLoad, etc.
  - If a file is passed into 'mixed' that it does not recognise, it will returned as type "failed".
  - More-Assets has an onProgress option. This is functionaly the same as using onLoad in the options. Either syntax should work.
-   More-Assets has a method Assets.image() that accepts only one image. This is treaded by AssetLoader the same as AssetLoader.images(); 
+   More-Assets has a method Assets.image() that accepts only one image. This is treated by AssetLoader the same as AssetLoader.images(); 
  - Once the page has loaded, the array of loaded files [AssetLoader.loaded] is referenced without checking the page for changes.  
    if you attach files using another method, take care to update the object.
 		eg { src:'myfile.js'

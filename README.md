@@ -50,6 +50,7 @@ Each file can be either:
 
  - chain [boolean]: Wait till this file is loaded before loading the next file[true], or begin loading the next file immediately [false].
  - onComplete [function] : Function to run once all files are loaded.
+ - onInit [function] : Function to run when all files are first loaded. Explained later.
  - Path [string]: Prepended to the file's path. AssetLoader.css('style.css',{path:'Assets/'}) loads 'Assets/style.css'	
 
 			
@@ -67,12 +68,12 @@ When both have loaded, the page will alert 'Done!'.*
 	   ['styleOne.css', 'styleTwo.css'],
 	   {'class':newStyles', onComplete: function(){ alert('Done!') }}
 	);
-3: *Load the first image as fast as possible, then images two through four, then all the remaining simultaneously. 
+3: *Load the first image as fast as possible, then images two through four, then all the remaining simultaneously.  
 (Images default to chain:false.  Used in our image gallery.)*
 
 	AssetLoader.css([{src:'img1.jpg', chain:true}, 'img2.jpg', 'img3.jpg', {src:'img4.jpg', chain:true}, 'img5.jpg']);
-4: *All but styleTwo.css will have a class 'lazy'.* 
-*The paths of all files will begin with 'Assets/', eg. 'Assets/styleOne.js'* 
+4: *All but styleTwo.css will have a class 'lazy'.*  
+*The paths of all files will begin with 'Assets/', eg. 'Assets/styleOne.js'*  
 *myImage.jpg will not load until styleTwo.css has loaded, as styleTwo has chain:true.*
 
 	var files = [ 

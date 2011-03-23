@@ -43,13 +43,13 @@ var AssetLoader  =
         if (!files.length) return alert('err: No Files Passed'); //false;
 		
         var file = files.shift()
-          , chain = file.chain  
           , path = ([file.path, options.path, AssetLoader.path].pick() || '') + [file.src, file.href, file].pick();
 		
         if (type == 'mixed') type = AssetLoader.type(file);
         var opts = Object.merge({events:{}}, AssetLoader.options.defaults, AssetLoader.options[type] || {}, options);
         file = Object.merge(file.big ? {} : file, opts);
         file[type == 'link' ? 'href' : 'src'] = path;
+        var chain = file.chain;
         
         var events = ['load','error','abort'];
         events.each(function(event){
